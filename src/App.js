@@ -16,7 +16,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 
 export default function App() {
-  
+  //usehistory for change the url
   const history = useHistory();
   const chartsdet = [{chartpic :"https://about.infogr.am/wp-content/uploads/2016/08/Summer-olympics-Medals-table.gif"},
                       {chartpic:"https://www.r-graph-gallery.com/img/graph/288-animated-barplot-transition.gif"},
@@ -24,7 +24,7 @@ export default function App() {
                     {chartpic:"https://cdn.dribbble.com/users/3593/screenshots/2475280/linechart.gif"}];
 
 
-
+//usestate is used for update the state
   const [mode, setMode] = useState("light");
   const darkTheme = createTheme({
     palette: {
@@ -38,6 +38,7 @@ export default function App() {
     <div className="App">
       <AppBar position="static">
        <Toolbar>
+         {/* app bar buttons*/}
        <Button varient="text" color="inherit" onClick={()=>history.push("/")}>Home</Button>
        <Button varient="text" color="inherit" onClick={()=>history.push("/dashboard")}>Dashboard</Button>
        <Button varient="text" color="inherit" onClick={()=>history.push("/chart")}>Chart</Button>
@@ -94,7 +95,7 @@ function Dashboard() {
     </div>
   );
 }
-
+//home page
 function Home() {
   return (
     <div className="home">
@@ -119,7 +120,7 @@ function Colourbutton() {
     </div>
   );
 }
-
+//chartsdet - pass as a props
 function Chart({chartsdet}){
   return(
 <section>
@@ -127,7 +128,7 @@ function Chart({chartsdet}){
 </section>
   );
 } 
-
+// chartpic - destructure from chartdet
 function Chartflow({chartpic}){
   return (
     <div className="chart-flex">
