@@ -5,22 +5,47 @@ import { useHistory } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
+import {useState} from "react";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
 
 
 export default function App() {
   
   const history = useHistory();
-  
+  const chartsdet = [{chartpic :"https://about.infogr.am/wp-content/uploads/2016/08/Summer-olympics-Medals-table.gif"},
+                      {chartpic:"https://www.r-graph-gallery.com/img/graph/288-animated-barplot-transition.gif"},
+                    {chartpic:"https://c.tenor.com/hQfs1RqzK94AAAAC/circle-graph-graph.gif"},
+                    {chartpic:"https://cdn.dribbble.com/users/3593/screenshots/2475280/linechart.gif"}];
+
+
+
+  const [mode, setMode] = useState("light");
+  const darkTheme = createTheme({
+    palette: {
+    mode: mode,
+     },
+     });
+
   return (
+    <ThemeProvider theme={darkTheme}>
+       <Paper elevation={3} style={{borderRadius:"0px",minHeight:"100vh"}}>
     <div className="App">
       <AppBar position="static">
        <Toolbar>
        <Button varient="text" color="inherit" onClick={()=>history.push("/")}>Home</Button>
        <Button varient="text" color="inherit" onClick={()=>history.push("/dashboard")}>Dashboard</Button>
-       <Button varient="text" color="inherit" onClick={()=>history.push("/button")}>Button</Button>
        <Button varient="text" color="inherit" onClick={()=>history.push("/chart")}>Chart</Button>
+       <Button varient="text" color="inherit" onClick={()=>history.push("/button")}>Button</Button>
        <Button varient="text" color="inherit" onClick={()=>history.push("/page")}>404 page</Button>
        <Button varient="text" color="inherit" onClick={()=>history.push("/blankpage")}>Blank page</Button>
+
+       <Button varient="text" color="inherit" style={{marginLeft:"auto"}} onClick={()=>setMode(mode==="light"? "dark":"light")}> {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />} {mode==="light"? "Dark":"Light"}Mode</Button>
        </Toolbar>
        </AppBar>
 
@@ -35,11 +60,11 @@ export default function App() {
         </Route>
 
         <Route path="/button">
-        <Abutton/>
+        <Colourbutton />
         </Route>
 
         <Route path="/chart">
-          <Chart />
+          <Chart chartsdet={chartsdet}/>
         </Route>
 
         <Route path="/page">
@@ -52,12 +77,20 @@ export default function App() {
 
         </Switch>
     </div>
+    </Paper>
+    </ThemeProvider>
   );
 }
+
+
 function Dashboard() {
+  const history = useHistory();
   return (
-    <div className="home">
+    <div className="Dashboard">
       <h2 className="home-hello">Dashboard</h2>
+      <Button onClick={()=>history.push("/chart") }variant="contained">📊📈Go to Chart-Page<ArrowForwardIcon/></Button>
+      <img className="dash-chart" src="https://c.tenor.com/hQfs1RqzK94AAAAC/circle-graph-graph.gif" alt="chart"/>
+      
     </div>
   );
 }
@@ -65,23 +98,40 @@ function Dashboard() {
 function Home() {
   return (
     <div className="home">
-      <h2 className="home-hello">Home</h2>
+     <img className="home-pic" src="https://c.tenor.com/kGBsOvMQFhIAAAAC/welcome-home-welcome.gif" alt="welcome home"/>
+    </div>
+  );
+}
+function Colourbutton() {
+  const history = useHistory();
+  return (
+    <div className="colour-div">
+      <h1>.btn-circle</h1>
+      <div className="color-button-div">
+      <img className="color-button but-hover" src="https://cdn3.iconfinder.com/data/icons/capsocial-round/500/facebook-512.png" alt="fb"/>
+      <img className="color-button-twitter but-hover" src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt="twitter"/>
+      <img className="color-button-info but-hover" src="https://icons-for-free.com/iconfiles/png/512/info-131964752893297302.png" alt="info"/>
+      <img className="color-button-warn but-hover" src="https://cdn1.iconfinder.com/data/icons/warnings-and-dangers/400/Warning-14-512.png" alt="warning-icon"/>
+      <img className="color-button-delete but-hover" src="https://cdn1.iconfinder.com/data/icons/basic-ui-elements-color/700/010_trash-2-512.png" alt="delete-icon"/>
+      
+    </div>
+    <Button onClick={()=>history.push("/") }variant="contained"><KeyboardBackspaceIcon/>Back to home</Button>
     </div>
   );
 }
 
-function Abutton() {
-  return (
-    <div className="color-button" >
-     <h1>textcolor</h1>
-    </div>
+function Chart({chartsdet}){
+  return(
+<section>
+  {chartsdet.map(({chartpic})=>(<Chartflow chartpic={chartpic}/>))}
+</section>
   );
-}
+} 
 
-function Chart() {
+function Chartflow({chartpic}){
   return (
-    <div className="home">
-      <h2 className="home-hello">Chart</h2>
+    <div className="chart-flex">
+     <img className="chart-pic" src={chartpic} alt={Chart}/>
     </div>
   );
 }
@@ -95,9 +145,11 @@ function Page() {
 }
 
 function Blank() {
+  const history = useHistory();
   return (
-    <div>
-      <h2 className="blank-page">Blank page</h2>
+    <div className="blank-page">
+      <h2 >Blank page</h2>
+      <Button onClick={()=>history.push("/") }variant="contained"><KeyboardBackspaceIcon/>Back to home</Button>
     </div>
   );
 }
